@@ -1,0 +1,29 @@
+name: Trivy Container Security Scan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build Docker image
+        run: docker build -t skynetai-lab2:latest .
+
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: skynetai-lab2:latest
+          format: table
+          exit-code: '1'
+          severity: CRITICAL,HIGH
+          vuln-type: os,library
