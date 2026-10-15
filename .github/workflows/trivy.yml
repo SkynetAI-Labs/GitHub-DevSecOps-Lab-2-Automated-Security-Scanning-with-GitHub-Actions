@@ -20,7 +20,7 @@ jobs:
         run: docker build -t skynetai-lab2:latest .
 
       - name: Scan Docker image
-        uses: aquasecurity/trivy-action@0.33.1
+        uses: aquasecurity/trivy-action@v0.33.1
         with:
           image-ref: skynetai-lab2:latest
           format: table
