@@ -19,11 +19,11 @@ jobs:
       - name: Build Docker image
         run: docker build -t skynetai-lab2:latest .
 
-      - name: Scan Docker image
-        uses: aquasecurity/trivy-action@v0.33.1
-        with:
-          image-ref: skynetai-lab2:latest
-          format: table
-          exit-code: '1'
-          severity: CRITICAL,HIGH
-          vuln-type: os,library
+      - name: Scan Docker image with Trivy
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy:0.65.0 image \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            skynetai-lab2:latest
