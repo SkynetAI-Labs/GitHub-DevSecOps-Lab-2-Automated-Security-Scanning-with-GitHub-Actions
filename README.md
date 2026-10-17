@@ -1,4 +1,4 @@
-# Automated Security Scanning with GitHub Actions
+# GitHub DevSecOps Lab 2: Automated Security Scanning with GitHub Actions
 
 **Organisation:** SkynetAI-Labs  
 **Project:** DevSecOps Lab 2  
