@@ -42,7 +42,7 @@ The pipeline demonstrates:
 
 The project includes a Python demonstration application.
 
-The Docker image uses Python 3.14 slim.
+The current Docker image uses Python 3.14 on Alpine 3.23, applies available Alpine updates, removes runtime pip, and runs as UID 10001.
 
 The application was tested successfully after removing pip from the runtime image.
 
@@ -70,7 +70,7 @@ Pip and its bundled libraries were removed from the Docker image.
 
 The Docker image was rebuilt, tested and rescanned.
 
-## Final Vulnerability Assessment
+## Historical Assessment After Removing Runtime Pip
 
 | Component | HIGH | CRITICAL |
 |---|---:|---:|
@@ -80,13 +80,13 @@ The Docker image was rebuilt, tested and rescanned.
 
 **Result:** Four HIGH Python vulnerability findings eliminated.
 
-## Outstanding Security Risks
+## Historical Debian Findings
 
 The remaining 44 HIGH findings affect Debian operating-system packages.
 
 A Trivy assessment using `--ignore-unfixed` identified no Debian findings with available fixes.
 
-These findings remain unresolved and require continued monitoring and reassessment.
+These findings remained in the earlier Debian image. That image has now been replaced with the Alpine runtime described below; the Debian packages themselves were not patched by this change.
 
 The Docker image must not be considered vulnerability-free.
 
@@ -108,8 +108,19 @@ The report documents:
 - Vulnerable Python libraries
 - Remediation actions
 - Rescan results
-- Outstanding Debian vulnerabilities
+- Historical Debian findings and subsequent base-image replacement
 - CI/CD security enforcement
+
+
+## Current Remediation Verification
+
+The remediation in [pull request #2](https://github.com/SkynetAI-Labs/GitHub-DevSecOps-Lab-2-Automated-Security-Scanning-with-GitHub-Actions/pull/2) replaced the Debian runtime with Python Alpine.
+
+Both push and pull request runs passed all five checks: application tests, Semgrep, Gitleaks, dependency auditing, and Trivy (10 successful checks in total).
+
+The container workflow also verified the expected greeting and execution as UID 10001. Local backups, caches, and development files are excluded from the build context.
+
+Trivy retained its HIGH/CRITICAL failure threshold and included unfixed findings. Passing means no findings triggered that policy at scan time; lower-severity findings are outside this gate. It does not establish that the image has no vulnerabilities.
 
 ## Skills Demonstrated
 
@@ -130,6 +141,6 @@ Security automation implemented and container scanning verified.
 
 Four HIGH Python findings eliminated.
 
-Forty-four HIGH Debian findings remain documented and unresolved.
+The replacement Alpine image passed both Trivy checks under the unchanged HIGH/CRITICAL policy, including unfixed findings.
 
 **SkynetAI-Labs | DevSecOps Portfolio**

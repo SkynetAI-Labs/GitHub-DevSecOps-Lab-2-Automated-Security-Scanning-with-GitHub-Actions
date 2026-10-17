@@ -1,5 +1,17 @@
 # Lab 2 — Security Findings Report
 
+## Current Remediation Status
+
+The replacement Python 3.14 Alpine 3.23 image passed both Trivy runs in remediation pull request #2. All 10 workflow checks succeeded. The workflow verified application output and non-root UID 10001.
+
+The HIGH/CRITICAL failure policy remains enforced, including unfixed findings. These results apply to the replacement image at scan time, not to the old Debian image. Lower severities are outside this gate.
+
+[Remediation and check evidence](https://github.com/SkynetAI-Labs/GitHub-DevSecOps-Lab-2-Automated-Security-Scanning-with-GitHub-Actions/pull/2)
+
+## Historical Assessment — Previous Debian Image
+
+The original assessment below is retained as history. Its outstanding findings and failure status describe the previous Debian image, not the current Alpine replacement.
+
 **Organisation:** SkynetAI-Labs
 **Project:** Automated Security Scanning with GitHub Actions
 **Assessment date:** 16 October 2026
