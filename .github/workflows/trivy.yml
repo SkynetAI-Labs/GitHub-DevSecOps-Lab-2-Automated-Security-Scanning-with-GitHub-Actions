@@ -10,20 +10,37 @@ permissions:
 
 jobs:
   trivy-scan:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Build Docker image
-        run: docker build -t skynetai-lab2:latest .
+        run: docker build --pull -t skynetai-lab2:latest .
+
+      - name: Verify application output
+        run: |
+          output="$(docker run --rm skynetai-lab2:latest)"
+          printf '%s\n' "$output"
+          test "$output" = "Hello, SkynetAI-Labs!"
+
+      - name: Verify non-root execution
+        run: |
+          uid="$(docker run --rm --entrypoint id skynetai-lab2:latest -u)"
+          printf 'Container user ID: %s\n' "$uid"
+          test "$uid" = "10001"
 
       - name: Scan Docker image with Trivy
         run: |
           docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             aquasec/trivy:0.65.0 image \
+            --scanners vuln \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
+            --ignore-unfixed=false \
             skynetai-lab2:latest

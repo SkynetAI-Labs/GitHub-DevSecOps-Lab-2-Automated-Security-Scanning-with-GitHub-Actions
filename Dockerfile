@@ -1,15 +1,17 @@
-FROM python:3.14-slim
+FROM python:3.14-alpine3.23
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && rm -rf /var/lib/apt/lists/* \
-    && python -m pip --version \
-    && rm -rf /usr/local/lib/python3.14/site-packages/pip \
-              /usr/local/lib/python3.14/site-packages/pip-*.dist-info \
-              /usr/local/bin/pip*
+RUN apk upgrade --no-cache \
+    && python -m pip uninstall -y pip \
+    && addgroup -S -g 10001 appuser \
+    && adduser -S -D -H -u 10001 -G appuser appuser
 
-COPY app/ ./app/
+COPY --chown=appuser:appuser app/ ./app/
+
+USER appuser
 
 CMD ["python", "app/main.py"]
