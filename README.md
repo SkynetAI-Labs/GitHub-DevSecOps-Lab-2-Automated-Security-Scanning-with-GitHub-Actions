@@ -1,3 +1,5 @@
+![Lab 02 – Automated Security Scanning](skynet-lab-02.png)
+
 # GitHub DevSecOps Lab 2: Automated Security Scanning with GitHub Actions
 
 **Organisation:** SkynetAI-Labs  
