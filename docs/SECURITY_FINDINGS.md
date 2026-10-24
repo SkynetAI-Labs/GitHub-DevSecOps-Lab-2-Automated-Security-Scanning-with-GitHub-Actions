@@ -82,4 +82,4 @@ This is expected behaviour under the configured security policy and must not be 
 
 The laboratory demonstrated automated security scanning, vulnerability analysis, targeted remediation, repeat scanning and security reporting.
 
-**Final status:** Security scanning operational; 44 HIGH Debian findings outstanding.
+**Final status (current Alpine image):** All five GitHub Actions workflows passed on 23 October 2026. The replacement Alpine container passed the configured Trivy HIGH/CRITICAL vulnerability scan, including unfixed findings. The 44 HIGH Debian findings documented above belong to the previous image and remain historical findings, not outstanding findings in the current Alpine image. Lower-severity vulnerabilities and security risks outside the configured scans are not ruled out.
